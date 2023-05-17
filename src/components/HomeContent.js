@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import MainHeader from './MainHeader'
 import CreateTweetTop from './CreateTweetTop'
+import { Feed } from './Feed/Feed'
 
 const Container = styled.div`
   .header {
@@ -38,6 +39,7 @@ export default function HomeContent() {
       <div className="create-tweet-top">
         <CreateTweetTop />
       </div>
+      <Feed />
       {/* <Timeline /> */}
       {/* </Feed> */}
     </Container>

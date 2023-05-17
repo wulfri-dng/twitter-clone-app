@@ -250,7 +250,7 @@ export default function LeftSide({ onClickTweet }) {
         <Twitter color="white" size={25} />
       </Link>
       <div className="buttons">
-        {menus.map((m) => {
+        {menus.map((m) => { 
           const isActiveLink =
             location.pathname === `/${m.id}` ||
             (m.id === 'profile')
