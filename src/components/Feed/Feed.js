@@ -1,4 +1,51 @@
+import styled from "styled-components"
 import profilePic from "../../images/danushanavod.jpg"
+
+const FeedList = styled.div`
+    color: white;
+`
+
+const Tweet = styled.div`
+    display: flex;
+    margin: 12px 18px;
+
+    .details-area {
+        width: 100%;
+        font-weight: 400;
+    }
+
+    .top-details-section {
+        display: flex;
+    }
+
+    .image-area {
+        margin-right: 14px;
+    }
+
+    .user-dp {
+        max-width: 48px;
+        border-radius: 50px;
+       
+    }
+
+    .faded-text {
+        margin: 0 5px;
+        font-weight: 400;
+        color: #70767A;
+    }
+
+    .top-details-section-divider {
+        margin: 0px;
+        font-weight: 600;
+    }
+
+    .text-content {
+        margin-top: 5px;
+        font-family: 'Public Sans', sans-serif;
+        font-size: 0.95em;
+        line-height: 20px;
+    }
+`
 
 export const Feed = () => {
     const feedTweetsList = [
@@ -7,7 +54,7 @@ export const Feed = () => {
             name: "Danusha Navod",
             profilePic: "../../images/danushanavod.jpg",
             dateTime: "May 17",
-            content: "World Rugby suspends Sri Lanka",
+            content: "The 75,000,000 great American Patriots who voted for me, AMERICA FIRST, and MAKE AMERICA GREAT AGAIN, will have a GIANT VOICE long into the future. They will not be disrespected or treated unfairly in any way, shape or form!!!",
             media: [],
             comments: [
                 {
@@ -22,14 +69,28 @@ export const Feed = () => {
     ]
 
     return (
-        <>
+        <FeedList>
             {feedTweetsList.map(tweet => {
                 console.log(tweet.profilePic)
 
                 return (
-                    <img src={profilePic} alt="Girl in a jacket" width="100" height="80"></img>
+                    <Tweet>
+                        <div className="image-area">
+                            <img className="user-dp" src={profilePic} alt={`${tweet.userName}-dp`}></img>
+                        </div>
+                        <div className="details-area">
+                            <div className="top-details-section">
+                                <p>{tweet.name}</p>
+                                <p className="faded-text">@{tweet.userName}</p>
+                                <p className="faded-text top-details-section-divider">·</p>
+                                <p className="faded-text dateTime">{tweet.dateTime}</p>
+                            </div>
+                            <p className="text-content">{tweet.content}</p>
+                        </div>
+                    </Tweet>
+
                 )
             })}
-        </>
+        </FeedList >
     )
 }
