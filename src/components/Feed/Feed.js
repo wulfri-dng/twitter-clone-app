@@ -41,8 +41,10 @@ const Tweet = styled.div`
 
     .text-content {
         margin-top: 5px;
-        font-family: 'Public Sans', sans-serif;
-        font-size: 0.95em;
+        font-family: 'Roboto', sans-serif;
+        font-weight: 300;
+        letter-spacing: 0.6px;
+        font-size: 0.9em;
         line-height: 20px;
     }
 `
