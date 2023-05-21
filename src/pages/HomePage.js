@@ -1,10 +1,10 @@
-import HomeContent from '../components/HomeContent'
-import Layout from '../components/Layout'
+import HomeContent from '../components/HomeContent';
+import Layout from '../components/Layout';
 
 export const HomePage = () => {
-  return (
-    <Layout>
-      <HomeContent />
-    </Layout>
-  )
-}
+    return (
+        <Layout>
+            <HomeContent />
+        </Layout>
+    );
+};

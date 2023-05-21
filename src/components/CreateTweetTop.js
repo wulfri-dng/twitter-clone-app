@@ -1,22 +1,22 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 // import useTweet from '../../hooks/useTweet'
-import TweetForm from './TweetForm'
+import TweetForm from './TweetForm';
 
 const Container = styled.div`
-  padding: 15px;
-`
+    padding: 15px;
+`;
 
 export default function CreateTweetTop() {
-  // const { createTweet } = useTweet()
+    // const { createTweet } = useTweet()
 
-  const onSubmit = async (text) => {
-    // createTweet(text)
-  }
+    const onSubmit = async (text) => {
+        // createTweet(text)
+    };
 
-  return (
-    <Container>
-      <TweetForm placeholder="What's happening?" onSubmit={onSubmit} />
-    </Container>
-  )
+    return (
+        <Container>
+            <TweetForm placeholder="What's happening?" onSubmit={onSubmit} />
+        </Container>
+    );
 }
