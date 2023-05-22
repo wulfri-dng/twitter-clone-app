@@ -2,6 +2,8 @@ import { MainHeader } from '../MainHeader/MainHeader';
 import { CreateTweetTop } from '../CreateTweetTop/CreateTweetTop';
 import { TweetFeed } from '../../components-tweet-feed/TweetFeed/TweetFeed';
 import styled from 'styled-components';
+import { useContext, useEffect } from 'react';
+import { MainContext } from '../../context/mainContext';
 
 const Container = styled.div`
     .header {
@@ -30,6 +32,9 @@ const Container = styled.div`
 `;
 
 export const HomeContent = () => {
+    const { isCreateTweetPopupVisible, setIsCreateTweetPopupVisible } =
+        useContext(MainContext);
+
     return (
         <Container>
             <div className="header">

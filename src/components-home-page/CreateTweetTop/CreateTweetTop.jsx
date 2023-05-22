@@ -6,15 +6,9 @@ const Container = styled.div`
 `;
 
 export const CreateTweetTop = () => {
-    // const { createTweet } = useTweet()
-
-    const onSubmit = async (text) => {
-        // createTweet(text)
-    };
-
     return (
         <Container>
-            <TweetForm placeholder="What's happening?" onSubmit={onSubmit} />
+            <TweetForm />
         </Container>
     );
 };

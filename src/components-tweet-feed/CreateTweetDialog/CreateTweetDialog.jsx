@@ -17,11 +17,7 @@ const Container = styled.div`
 `;
 
 export const CreateTweetDialog = ({ onClickOutside }) => {
-    // const { createTweet } = useTweet()
-
     const onSubmit = async (text) => {
-        // createTweet(text)
-
         onClickOutside();
     };
 
@@ -33,7 +29,6 @@ export const CreateTweetDialog = ({ onClickOutside }) => {
                     shouldFocus={true}
                     minHeight={240}
                     className="tweet-form"
-                    placeholder="What's happening"
                 />
             </Modal>
         </Container>
