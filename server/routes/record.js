@@ -33,8 +33,9 @@ router.post("/", async (req, res) => {
     res.send(result).status(204);
 });
 
+// Publish tweet and update user profile tweet field
 router.post("/publishTweet", async (req, res) => {
-    let newDocument = {
+    const newDocument = {
         userName: req.body.userName,
         name: req.body.name,
         profilePic: req.body.profilePic,
@@ -44,9 +45,24 @@ router.post("/publishTweet", async (req, res) => {
         viewCount: 0,
         comments: [],
     };
-    let collection = await db.collection("tweet_feed");
-    let result = await collection.insertOne(newDocument);
-    res.send(result).status(204);
+    const collection = await db.collection("tweet_feed");
+    const publishedTweetResult = await collection.insertOne(newDocument);
+
+    const usersCollection = await db.collection("users");
+    const query = { userName: req.body.userName }
+    const userDoc = await usersCollection.find(query).toArray()
+
+    if (userDoc.length === 1) {
+        const updateUserResult = await usersCollection.updateOne(query, {
+            $push: { tweets: publishedTweetResult.insertedId }
+        })
+
+        res.send({ publishedTweetResult: publishedTweetResult, updateUserResult: updateUserResult }).status(204);
+    } else if (userDoc.length > 1) {
+        res.send({ error: "Multiple users found; Tweet published", publishedTweetResult: publishedTweetResult }).status(204);
+    } else {
+        res.send({ error: "User not found; Tweet published", publishedTweetResult: publishedTweetResult }).status(204);
+    }
 });
 
 // This section will help you update a record by id.
