@@ -7,7 +7,7 @@ const router = express.Router();
 // This section will help you get a list of all the records.
 router.get("/", async (req, res) => {
     try {
-        let collection = await db.collection(req.query.collectionName);
+        let collection = await db.collection("tweet_feed");
         let results = await collection.find({}).toArray();
         res.send(results).status(200);
     } catch (err) {
