@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import ProgressRing from '../../shared/Icons/ProgressRing';
 import { actions } from './actionDataSchema';
 import { Container, Form } from './styles';
+import axios from 'axios';
 
 export const TweetForm = ({
     onSubmit,
@@ -26,14 +27,35 @@ export const TweetForm = ({
     const percentage =
         text.length >= MAX_CHARS ? 100 : (text.length / MAX_CHARS) * 100;
 
+    const publishTweet = async () => {
+        try {
+            await axios
+                .post('api/publishTweet', {
+                    userId: '646d944f77285badce9ef86e', // TODO: Remove hardcoded user ID
+                    dateTime: new Date(),
+                    content: text,
+                })
+                .then((response) => {
+                    console.log(response);
+                });
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
     const submit = async (e) => {
         e.preventDefault();
 
-        if (exceededMax)
+        if (exceededMax) {
             return alert('Tweet cannot exceed ' + MAX_CHARS + ' characters');
+        }
 
-        await onSubmit(text);
-        // TODO: Handle tweet publish func here
+        await publishTweet();
+
+        if (onSubmit) {
+            onSubmit(text);
+        }
+        
         setText('');
     };
 

@@ -49,9 +49,7 @@ router.post("/", async (req, res) => {
 router.post("/publishTweet", async (req, res) => {
     try {
         const newDocument = {
-            userName: req.body.userName,
-            name: req.body.name,
-            profilePic: req.body.profilePic,
+            userId: req.body.userId,
             dateTime: req.body.dateTime,
             content: req.body.content,
             likeCount: 0,
@@ -62,7 +60,7 @@ router.post("/publishTweet", async (req, res) => {
         const publishedTweetResult = await collection.insertOne(newDocument);
 
         const usersCollection = await db.collection("users");
-        const query = { userName: req.body.userName }
+        const query = { _id: new ObjectId(req.body.userId) }
         const userDoc = await usersCollection.find(query).toArray()
 
         if (userDoc.length === 1) {
