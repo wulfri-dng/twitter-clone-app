@@ -7,10 +7,23 @@ const router = express.Router();
 // This section will help you get a list of all the records.
 router.get("/", async (req, res) => {
     try {
-        let collection = await db.collection("tweet_feed");
-        let results = await collection.find({}).toArray();
-        // TODO: Send user details along with the tweet list
-        res.send(results).status(200);
+        let tweetList = await db.collection("tweet_feed");
+        let tweetResults = await tweetList.find({}).toArray();
+
+        let userList = await db.collection("users");
+        let userResults = await userList.find({}).toArray();
+
+        for (const tweet of tweetResults) {
+            for (const user of userResults) {
+                if (tweet.userId === user._id.toString()) {
+                    tweet.userName = user.userName;
+                    tweet.name = user.name;
+                    break
+                }
+            }
+        }
+
+        res.send(tweetResults).status(200);
     } catch (err) {
         console.log(err)
     }
