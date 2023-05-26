@@ -1,10 +1,7 @@
 import classNames from 'classnames';
 import { useState } from 'react';
-// import { useStreamContext } from 'react-activity-feed'
 import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
-
-// import LoadingIndicator from './LoadingIndicator'
 import Bell from '../../shared/Icons/Bell';
 import Group from '../../shared/Icons/Group';
 import Home from '../../shared/Icons/Home';
@@ -165,41 +162,7 @@ const Container = styled.div`
 
 export const LeftSide = ({ onClickTweet }) => {
     const location = useLocation();
-    // const { client, userData } = useStreamContext()
-
     const [newNotifications, setNewNotifications] = useState(0);
-
-    // useEffect(() => {
-    //   if (!userData || location.pathname === `/notifications`) return
-
-    //   let notifFeed
-
-    //   async function init() {
-    //     notifFeed = client.feed('notification', userData.id)
-    //     const notifications = await notifFeed.get()
-
-    //     const unread = notifications.results.filter(
-    //       (notification) => !notification.is_seen
-    //     )
-
-    //     setNewNotifications(unread.length)
-
-    //     notifFeed.subscribe((data) => {
-    //       setNewNotifications(newNotifications + data.new.length)
-    //     })
-    //   }
-
-    //   init()
-
-    //   return () => notifFeed?.unsubscribe()
-    // }, [userData])
-
-    // if (!userData)
-    //   return (
-    //     <Container>
-    //       <LoadingIndicator />
-    //     </Container>
-    //   )
 
     const menus = [
         {
@@ -240,7 +203,6 @@ export const LeftSide = ({ onClickTweet }) => {
             id: 'profile',
             label: 'Profile',
             Icon: User,
-            // link: `/${userData.id}`,
         },
     ];
 
@@ -294,6 +256,7 @@ export const LeftSide = ({ onClickTweet }) => {
             <button className="profile-section">
                 <div className="details">
                     <div className="details__img">
+                        {/* TODO: Add user details section */}
                         {/* <img src={userData.image} alt="" /> */}
                     </div>
                     <div className="details__text">

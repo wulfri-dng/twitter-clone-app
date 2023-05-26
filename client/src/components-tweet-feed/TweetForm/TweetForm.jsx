@@ -55,7 +55,7 @@ export const TweetForm = ({
         if (onSubmit) {
             onSubmit(text);
         }
-        
+
         setText('');
     };
 
@@ -68,6 +68,7 @@ export const TweetForm = ({
             >
                 <div className="user">
                     {/* <img src={user.image} alt="" /> */}
+                    {/* TODO: Handle profile pic */}
                 </div>
                 <div className="input-section">
                     <textarea

@@ -39,11 +39,7 @@ const Container = styled.div`
 `;
 
 export const Layout = ({ children }) => {
-    // const { user } = useStreamContext()
-
     const [createDialogOpened, setCreateDialogOpened] = useState(false);
-
-    // if (!user) return <LoadingIndicator />
 
     return (
         <>
@@ -59,10 +55,7 @@ export const Layout = ({ children }) => {
                             onClickTweet={() => setCreateDialogOpened(true)}
                         />
                     </div>
-                    <main className="main-content">
-                        {/* {!user ? <LoadingIndicator /> : children} */}
-                        {children}
-                    </main>
+                    <main className="main-content">{children}</main>
                     <div className="right-side-bar">
                         <RightSide />
                     </div>

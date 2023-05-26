@@ -1,12 +1,6 @@
-import classNames from 'classnames';
 import { useState } from 'react';
-// import { useStreamContext } from 'react-activity-feed'
-import { Link } from 'react-router-dom';
+import classNames from 'classnames';
 import styled from 'styled-components';
-
-import users from '../../users';
-// import FollowBtn from './FollowBtn'
-// import More from './Icons/More'
 import Search from '../../shared/Icons/Search';
 
 const Container = styled.div`
@@ -190,6 +184,7 @@ const Container = styled.div`
     }
 `;
 
+// TODO: Update trends
 const trends = [
     {
         title: 'iPhone 12',
@@ -220,13 +215,6 @@ const trends = [
 
 export const RightSide = () => {
     const [searchText, setSearchText] = useState('');
-
-    // const { client } = useStreamContext()
-
-    const whoToFollow = users.filter((u) => {
-        // filter out currently logged in user
-        // return u.id !== client.userId
-    });
 
     return (
         <Container>
@@ -284,31 +272,8 @@ export const RightSide = () => {
 
             <div className="follows">
                 <h2>Who to follow</h2>
-                <div className="follows-list">
-                    {whoToFollow.map((user) => {
-                        return (
-                            <div className="user" key={user.id}>
-                                <Link
-                                    to={`/${user.id}`}
-                                    className="user__details"
-                                >
-                                    <div className="user__img">
-                                        <img src={user.image} alt="" />
-                                    </div>
-                                    <div className="user__info">
-                                        <span className="user__name">
-                                            {user.name}
-                                        </span>
-                                        <span className="user__id">
-                                            @{user.id}
-                                        </span>
-                                    </div>
-                                </Link>
-                                {/* <FollowBtn userId={user.id} /> */}
-                            </div>
-                        );
-                    })}
-                </div>
+                {/* TODO: Add hardcoded users here */}
+                <div className="follows-list"></div>
                 <span className="show-more-text">Show more</span>
             </div>
         </Container>

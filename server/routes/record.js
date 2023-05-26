@@ -9,6 +9,7 @@ router.get("/", async (req, res) => {
     try {
         let collection = await db.collection("tweet_feed");
         let results = await collection.find({}).toArray();
+        // TODO: Send user details along with the tweet list
         res.send(results).status(200);
     } catch (err) {
         console.log(err)
