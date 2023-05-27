@@ -18,10 +18,10 @@ const Header = styled.header`
     }
 `;
 
-export const MainHeader = () => {
+export const MainHeader = ({ title }) => {
     return (
         <Header>
-            <h1>Home</h1>
+            <h1>{title} </h1>
             <Star color="white" />
         </Header>
     );

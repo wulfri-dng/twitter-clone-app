@@ -1,7 +1,10 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import classNames from 'classnames';
 import styled from 'styled-components';
 import Search from '../../shared/Icons/Search';
+import { MainContext } from '../../context/mainContext';
+import { RightSideUserPreview } from '../RightSideUserPreview/RightSideUserPreview';
+import { RightSideGuestPreview } from '../RightSideGuestPreview/RightSideGuestPreview';
 
 const Container = styled.div`
     padding: 0 15px 15px;
@@ -68,6 +71,7 @@ const Container = styled.div`
     }
 
     .trends,
+    .userLogin,
     .follows {
         background-color: #222;
         border-radius: 20px;
@@ -79,7 +83,8 @@ const Container = styled.div`
         }
     }
 
-    .trends {
+    .trends,
+    .userLogin {
         margin-top: 10px;
         &-list {
             margin-top: 30px;
@@ -133,6 +138,11 @@ const Container = styled.div`
                 opacity: 0.5;
             }
         }
+
+        .sticky {
+            z-index: 1;
+            position: sticky;
+        }
     }
 
     .follows {
@@ -182,100 +192,27 @@ const Container = styled.div`
             color: var(--theme-color);
         }
     }
+
+    .create-account-btn {
+        background-color: white;
+        width: 100%;
+        margin-top: 20px;
+        border-radius: 30px;
+        color: black;
+        text-align: center;
+        padding: 15px 0;
+        font-size: 16px;
+        font-weight: 700;
+    }
 `;
 
-// TODO: Update trends
-const trends = [
-    {
-        title: 'iPhone 12',
-        tweetsCount: '11.6k',
-        category: 'Technology',
-    },
-    {
-        title: 'LinkedIn',
-        tweetsCount: '51.1K',
-        category: 'Business & finance',
-    },
-    {
-        title: 'John Cena',
-        tweetsCount: '1,200',
-        category: 'Sports',
-    },
-    {
-        title: '#Microsoft',
-        tweetsCount: '3,022',
-        category: 'Business & finance',
-    },
-    {
-        title: '#DataSciencve',
-        tweetsCount: '18.6k',
-        category: 'Technology',
-    },
-];
-
 export const RightSide = () => {
-    const [searchText, setSearchText] = useState('');
+    const user = useContext(MainContext);
 
     return (
         <Container>
-            <div className="search-container">
-                <form className="search-form">
-                    <div className="search-icon">
-                        <Search color="rgba(85,85,85,1)" />
-                    </div>
-                    <input
-                        onChange={(e) => setSearchText(e.target.value)}
-                        value={searchText}
-                        placeholder="Search Streamer"
-                    />
-                    <button
-                        className={classNames(
-                            !Boolean(searchText) && 'hide',
-                            'submit-btn'
-                        )}
-                        type="button"
-                        onClick={() => setSearchText('')}
-                    >
-                        X
-                    </button>
-                </form>
-            </div>
-
-            <div className="trends">
-                <h2>Trends for you</h2>
-                <div className="trends-list">
-                    {trends.map((trend, i) => {
-                        return (
-                            <div className="trend" key={trend.title + '-' + i}>
-                                <div className="trend__details">
-                                    <div className="trend__details__category">
-                                        {trend.category}
-                                        <span className="trend__details__category--label">
-                                            Trending
-                                        </span>
-                                    </div>
-                                    <span className="trend__details__title">
-                                        {trend.title}
-                                    </span>
-                                    <span className="trend__details__tweets-count">
-                                        {trend.tweetsCount} Tweets
-                                    </span>
-                                </div>
-                                <button className="more-btn">
-                                    {/* <More color="white" /> */}
-                                </button>
-                            </div>
-                        );
-                    })}
-                </div>
-            </div>
-
-            <div className="follows">
-                <h2>Who to follow</h2>
-                {/* TODO: Add hardcoded users here */}
-                <div className="follows-list"></div>
-                <span className="show-more-text">Show more</span>
-            </div>
+            {user.loggedUser && <RightSideUserPreview />}
+            {!user.loggedUser && <RightSideGuestPreview />}
         </Container>
     );
 };

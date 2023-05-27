@@ -2,6 +2,8 @@ import { MainHeader } from '../MainHeader/MainHeader';
 import { CreateTweetTop } from '../CreateTweetTop/CreateTweetTop';
 import { TweetFeed } from '../../components-tweet-feed/TweetFeed/TweetFeed';
 import styled from 'styled-components';
+import { useContext, useEffect, useState } from 'react';
+import { MainContext } from '../../context/mainContext';
 
 const Container = styled.div`
     .header {
@@ -30,14 +32,27 @@ const Container = styled.div`
 `;
 
 export const HomeContent = () => {
+    const user = useContext(MainContext);
+    const [headerTitle, setHeaderTitle] = useState('Explore');
+
+    useEffect(() => {
+        if (!user.loggedUser) {
+            setHeaderTitle('Explore');
+        } else {
+            setHeaderTitle('Home');
+        }
+    }, [user.loggedUser]);
+
     return (
         <Container>
             <div className="header">
-                <MainHeader />
+                <MainHeader title={headerTitle} />
             </div>
-            <div className="create-tweet-top">
-                <CreateTweetTop />
-            </div>
+            {user.loggedUser && (
+                <div className="create-tweet-top">
+                    <CreateTweetTop />
+                </div>
+            )}
             <TweetFeed />
         </Container>
     );

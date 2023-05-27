@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import Bell from '../../shared/Icons/Bell';
@@ -11,6 +11,7 @@ import Bookmark from '../../shared/Icons/Bookmark';
 import User from '../../shared/Icons/User';
 import More from '../../shared/Icons/More';
 import Twitter from '../../shared/Icons/Twitter';
+import { MainContext } from '../../context/mainContext';
 
 const Container = styled.div`
     display: flex;
@@ -162,23 +163,27 @@ const Container = styled.div`
 
 export const LeftSide = ({ onClickTweet }) => {
     const location = useLocation();
+    const user = useContext(MainContext);
     const [newNotifications, setNewNotifications] = useState(0);
 
     const menus = [
         {
             id: 'home',
             label: 'Home',
-            Icon: Home,
             link: '/home',
+            visible: user.loggedUser ? true : false,
+            Icon: Home,
         },
         {
             id: 'explore',
             label: 'Explore',
+            visible: true,
             Icon: Hashtag,
         },
         {
             id: 'communities',
             label: 'Communities',
+            visible: user.loggedUser ? true : false,
             Icon: Group,
         },
         {
@@ -187,21 +192,25 @@ export const LeftSide = ({ onClickTweet }) => {
             Icon: Bell,
             link: '/notifications',
             value: newNotifications,
+            visible: user.loggedUser ? true : false,
             onClick: () => setNewNotifications(0),
         },
         {
             id: 'messages',
             label: 'Messages',
+            visible: user.loggedUser ? true : false,
             Icon: Mail,
         },
         {
             id: 'bookmarks',
             label: 'Bookmarks',
+            visible: user.loggedUser ? true : false,
             Icon: Bookmark,
         },
         {
             id: 'profile',
             label: 'Profile',
+            visible: user.loggedUser ? true : false,
             Icon: User,
         },
     ];
@@ -212,35 +221,40 @@ export const LeftSide = ({ onClickTweet }) => {
                 <Twitter color="white" size={25} />
             </Link>
             <div className="buttons">
-                {menus.map((m) => {
+                {menus.map((menu, index) => {
                     const isActiveLink =
-                        location.pathname === `/${m.id}` || m.id === 'profile';
+                        location.pathname === `/${menu.id}` ||
+                        menu.id === 'profile';
 
                     return (
-                        <Link
-                            to={m.link ?? '#'}
-                            className={classNames(
-                                `btn--${m.id} new-tweets`,
-                                isActiveLink && 'active'
+                        <React.Fragment key={index}>
+                            {menu.visible && (
+                                <Link
+                                    to={menu.link ?? '#'}
+                                    className={classNames(
+                                        `btn--${menu.id} new-tweets`,
+                                        isActiveLink && 'active'
+                                    )}
+                                    key={menu.id}
+                                    onClick={menu.onClick}
+                                >
+                                    <div className="btn--icon">
+                                        {newNotifications &&
+                                        menu.id === 'notifications' ? (
+                                            <span className="notifications-count">
+                                                {newNotifications}
+                                            </span>
+                                        ) : null}
+                                        <menu.Icon
+                                            fill={isActiveLink}
+                                            color="white"
+                                            size={25}
+                                        />
+                                    </div>
+                                    <span>{menu.label}</span>
+                                </Link>
                             )}
-                            key={m.id}
-                            onClick={m.onClick}
-                        >
-                            <div className="btn--icon">
-                                {newNotifications &&
-                                m.id === 'notifications' ? (
-                                    <span className="notifications-count">
-                                        {newNotifications}
-                                    </span>
-                                ) : null}
-                                <m.Icon
-                                    fill={isActiveLink}
-                                    color="white"
-                                    size={25}
-                                />
-                            </div>
-                            <span>{m.label}</span>
-                        </Link>
+                        </React.Fragment>
                     );
                 })}
                 <button className="btn--more">
@@ -250,24 +264,28 @@ export const LeftSide = ({ onClickTweet }) => {
                     <span>More</span>
                 </button>
             </div>
-            <button onClick={onClickTweet} className="tweet-btn">
-                Tweet
-            </button>
-            <button className="profile-section">
-                <div className="details">
-                    <div className="details__img">
-                        {/* TODO: Add user details section */}
-                        {/* <img src={userData.image} alt="" /> */}
-                    </div>
-                    <div className="details__text">
-                        {/* <span className="details__text__name">{userData.name}</span>
+            {user.loggedUser && (
+                <>
+                    <button onClick={onClickTweet} className="tweet-btn">
+                        Tweet
+                    </button>
+                    <button className="profile-section">
+                        <div className="details">
+                            <div className="details__img">
+                                {/* TODO: Add user details section */}
+                                {/* <img src={userData.image} alt="" /> */}
+                            </div>
+                            <div className="details__text">
+                                {/* <span className="details__text__name">{userData.name}</span>
             <span className="details__text__id">@{userData.id}</span> */}
-                    </div>
-                </div>
-                <div>
-                    <More color="white" />
-                </div>
-            </button>
+                            </div>
+                        </div>
+                        <div>
+                            <More color="white" />
+                        </div>
+                    </button>
+                </>
+            )}
         </Container>
     );
 };
