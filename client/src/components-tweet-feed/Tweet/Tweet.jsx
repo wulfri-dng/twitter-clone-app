@@ -1,7 +1,9 @@
 import axios from 'axios';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import styled from 'styled-components';
 import moment from 'moment';
+import { MainContext } from '../../context/mainContext';
+import { Modal } from '../../shared';
 
 const StyledTweet = styled.div`
     display: flex;
@@ -129,7 +131,9 @@ const StyledTweet = styled.div`
     }
 `;
 
-export const Tweet = ({ tweet }) => {
+export const Tweet = ({ tweet, setIsUnauthorizedLikePopupVisible }) => {
+    const currentUser = useContext(MainContext);
+
     const user = {
         userName: 'danushanavod',
         name: 'Danusha Navod',
@@ -138,7 +142,7 @@ export const Tweet = ({ tweet }) => {
 
     // TODO: Get real user and automate this
     const [isLikedTweet, setIsLikedTweet] = useState(
-        user.likedTweets.includes(tweet._id)
+        currentUser.user && currentUser.user.likedTweets.includes(tweet._id)
     );
 
     const handleCommentClicked = () => {
@@ -150,17 +154,21 @@ export const Tweet = ({ tweet }) => {
     };
 
     const handleLikeClicked = () => {
-        try {
-            axios
-                .post('/api/likeTweet', {
-                    id: tweet._id,
-                })
-                .then(() => {
-                    setIsLikedTweet(true);
-                    tweet.likeCount += 1;
-                });
-        } catch (err) {
-            console.log(err);
+        if (currentUser.user) {
+            try {
+                axios
+                    .post('/api/likeTweet', {
+                        id: tweet._id,
+                    })
+                    .then(() => {
+                        setIsLikedTweet(true);
+                        tweet.likeCount += 1;
+                    });
+            } catch (err) {
+                console.log(err);
+            }
+        } else {
+            setIsUnauthorizedLikePopupVisible(true);
         }
     };
 

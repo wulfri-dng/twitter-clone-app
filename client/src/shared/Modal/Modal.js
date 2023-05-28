@@ -15,11 +15,14 @@ const Container = styled.div`
     top: 0;
 
     .modal {
-        z-index: 2;
         position: relative;
-
         background-color: black;
         border-radius: 20px;
+        margin-top: 20px;
+        padding: 15px;
+        width: 600px;
+        height: max-content;
+        z-index: 10;
 
         .close-btn {
             position: relative;
@@ -37,11 +40,11 @@ const Backdrop = styled.div`
     background-color: rgba(255, 255, 255, 0.2);
 `;
 
-export const Modal = ({ className, children, onClickOutside }) => {
+export const Modal = ({ children, onClickOutside }) => {
     return (
         <Container>
             <Backdrop onClick={() => onClickOutside()} />
-            <div className={classNames('modal', className)}>
+            <div className={classNames('modal')}>
                 <button onClick={onClickOutside} className="close-btn">
                     <Close color="white" size={24} />
                 </button>

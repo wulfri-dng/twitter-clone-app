@@ -2,6 +2,8 @@ import styled from 'styled-components';
 import axios from 'axios';
 import { Tweet } from '../Tweet/Tweet';
 import { useEffect, useState } from 'react';
+import { Modal } from '../../shared';
+import { UnauthorizedLikeClickPopup } from '../UnauthorizedLikeClickPopup/UnauthorizedLikeClickPopup';
 
 const FeedList = styled.div`
     color: white;
@@ -9,6 +11,8 @@ const FeedList = styled.div`
 
 export const TweetFeed = () => {
     const [tweetList, setTweetList] = useState([]);
+    const [isUnauthorizedLikePopupVisible, setIsUnauthorizedLikePopupVisible] =
+        useState(false);
 
     useEffect(() => {
         try {
@@ -22,11 +26,28 @@ export const TweetFeed = () => {
         }
     }, []);
 
+    const onClickOutside = () => setIsUnauthorizedLikePopupVisible(false);
+
     return (
-        <FeedList>
-            {tweetList.map((tweet, index) => {
-                return <Tweet key={index} tweet={tweet} />;
-            })}
-        </FeedList>
+        <>
+            <FeedList>
+                {tweetList.map((tweet, index) => {
+                    return (
+                        <Tweet
+                            key={index}
+                            tweet={tweet}
+                            setIsUnauthorizedLikePopupVisible={
+                                setIsUnauthorizedLikePopupVisible
+                            }
+                        />
+                    );
+                })}
+                {isUnauthorizedLikePopupVisible && (
+                    <Modal onClickOutside={onClickOutside}>
+                        <UnauthorizedLikeClickPopup />
+                    </Modal>
+                )}
+            </FeedList>
+        </>
     );
 };
