@@ -3,16 +3,17 @@ import axios from 'axios';
 import { Tweet } from '../Tweet/Tweet';
 import { useEffect, useState } from 'react';
 import { Modal } from '../../shared';
-import { UnauthorizedLikeClickPopup } from '../UnauthorizedLikeClickPopup/UnauthorizedLikeClickPopup';
+import { UnauthorizedClickPopup } from '../UnauthorizedClickPopup/UnauthorizedClickPopup';
+import { useContext } from 'react';
+import { MainContext } from '../../context/mainContext';
 
 const FeedList = styled.div`
     color: white;
 `;
 
 export const TweetFeed = () => {
+    const contextData = useContext(MainContext);
     const [tweetList, setTweetList] = useState([]);
-    const [isUnauthorizedLikePopupVisible, setIsUnauthorizedLikePopupVisible] =
-        useState(false);
 
     useEffect(() => {
         try {
@@ -26,7 +27,15 @@ export const TweetFeed = () => {
         }
     }, []);
 
-    const onClickOutside = () => setIsUnauthorizedLikePopupVisible(false);
+    const onClickOutside = () =>
+        contextData.setUnauthorizedLikePopupVisibility((prev) => {
+            return {
+                ...prev,
+                commentPopup: false,
+                retweetPopup: false,
+                likePopup: false,
+            };
+        });
 
     return (
         <>
@@ -36,15 +45,25 @@ export const TweetFeed = () => {
                         <Tweet
                             key={index}
                             tweet={tweet}
-                            setIsUnauthorizedLikePopupVisible={
-                                setIsUnauthorizedLikePopupVisible
+                            setUnauthorizedLikePopupVisibility={
+                                contextData.setUnauthorizedLikePopupVisibility
                             }
                         />
                     );
                 })}
-                {isUnauthorizedLikePopupVisible && (
+                {contextData.unauthorizedLikePopupVisibility.commentPopup && (
                     <Modal onClickOutside={onClickOutside}>
-                        <UnauthorizedLikeClickPopup />
+                        <UnauthorizedClickPopup popupType={'comment'} />
+                    </Modal>
+                )}
+                {contextData.unauthorizedLikePopupVisibility.retweetPopup && (
+                    <Modal onClickOutside={onClickOutside}>
+                        <UnauthorizedClickPopup popupType={'retweet'} />
+                    </Modal>
+                )}
+                {contextData.unauthorizedLikePopupVisibility.likePopup && (
+                    <Modal onClickOutside={onClickOutside}>
+                        <UnauthorizedClickPopup popupType={'like'} />
                     </Modal>
                 )}
             </FeedList>

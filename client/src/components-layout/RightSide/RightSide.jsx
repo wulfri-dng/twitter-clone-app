@@ -211,7 +211,7 @@ export const RightSide = () => {
 
     return (
         <Container>
-            {!user.loggedUser && <RightSideUserPreview />}
+            {user.loggedUser && <RightSideUserPreview />}
             {!user.loggedUser && <RightSideGuestPreview />}
         </Container>
     );

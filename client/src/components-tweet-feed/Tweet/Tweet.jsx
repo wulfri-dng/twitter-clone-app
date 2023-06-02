@@ -131,7 +131,7 @@ const StyledTweet = styled.div`
     }
 `;
 
-export const Tweet = ({ tweet, setIsUnauthorizedLikePopupVisible }) => {
+export const Tweet = ({ tweet, setUnauthorizedLikePopupVisibility }) => {
     const currentUser = useContext(MainContext);
 
     const user = {
@@ -146,11 +146,19 @@ export const Tweet = ({ tweet, setIsUnauthorizedLikePopupVisible }) => {
     );
 
     const handleCommentClicked = () => {
-        alert('Comment clicked');
+        if (!currentUser.user) {
+            setUnauthorizedLikePopupVisibility((prev) => {
+                return { ...prev, commentPopup: true };
+            });
+        }
     };
 
     const handleRetweetClicked = () => {
-        alert('retweet clicked');
+        if (!currentUser.user) {
+            setUnauthorizedLikePopupVisibility((prev) => {
+                return { ...prev, retweetPopup: true };
+            });
+        }
     };
 
     const handleLikeClicked = () => {
@@ -168,7 +176,9 @@ export const Tweet = ({ tweet, setIsUnauthorizedLikePopupVisible }) => {
                 console.log(err);
             }
         } else {
-            setIsUnauthorizedLikePopupVisible(true);
+            setUnauthorizedLikePopupVisibility((prev) => {
+                return { ...prev, likePopup: true };
+            });
         }
     };
 

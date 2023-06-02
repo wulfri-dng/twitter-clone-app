@@ -78,35 +78,47 @@ const Container = styled.div`
 
     .bottom-icon {
         font-family: 'Roboto', sans-serif;
-        fill: rgb(249, 24, 128);
         width: 55px;
         margin: auto;
     }
 
     .textArea {
         margin: 35px 0;
+        color: white;
     }
 `;
 
-export const UnauthorizedLikeClickPopup = () => {
+export const LoginPopup = () => {
     return (
         <Container>
             <div className="svgWrapper bottom-icon">
                 <svg viewBox="0 0 24 24">
-                    <path d="M20.884 13.19c-1.351 2.48-4.001 5.12-8.379 7.67l-.503.3-.504-.3c-4.379-2.55-7.029-5.19-8.382-7.67-1.36-2.5-1.41-4.86-.514-6.67.887-1.79 2.647-2.91 4.601-3.01 1.651-.09 3.368.56 4.798 2.01 1.429-1.45 3.146-2.1 4.796-2.01 1.954.1 3.714 1.22 4.601 3.01.896 1.81.846 4.17-.514 6.67z"></path>
+                    {/* <path d={selectedDataSet.svgPath}></path> */}
                 </svg>
             </div>
             <div className="textArea">
-                <h2>Like a Tweet to share the love.</h2>
+                <h2>Sign in to Twitter</h2>
                 <span className="popup__details__category">
                     Join Twitter now to let Daily Loud know you like their
                     Tweet.
                 </span>
             </div>
-            <button onClick={() => {}} className="btn login-btn">
+            <button
+                onClick={() => {
+                    // resetPopups();
+                    // contextData.setLoginPopupVisible(true);
+                }}
+                className="btn login-btn"
+            >
                 Log in
             </button>
-            <button onClick={() => {}} className="btn register-btn">
+            <button
+                onClick={() => {
+                    // resetPopups();
+                    // contextData.setRegisterPopupVisible(true);
+                }}
+                className="btn register-btn"
+            >
                 Sign up
             </button>
         </Container>
