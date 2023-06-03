@@ -149,6 +149,23 @@ router.post("/dislikeTweet", async (req, res) => {
     }
 })
 
+// Login user
+router.post("/userLogin", async (req, res) => {
+    try {
+        const usersCollection = await db.collection("users");
+        const query = { username: req.body.username }
+        let fetchedUser = await usersCollection.findOne(query);
+
+        if (fetchedUser?.password && fetchedUser.password === req.body.password) {
+            res.send(fetchedUser).status(200)
+        } else {
+            res.send({ err: true, errMsg: "Check details and try again" }).status(200)
+        }
+    } catch (err) {
+        console.log(err)
+    }
+});
+
 // Register new user
 router.post("/registerUser", async (req, res) => {
     try {

@@ -1,4 +1,7 @@
+import axios from 'axios';
+import { useContext } from 'react';
 import styled from 'styled-components';
+import { MainContext } from '../../context/mainContext';
 
 const Container = styled.div`
     width: 300px;
@@ -72,10 +75,37 @@ const Container = styled.div`
 `;
 
 export const LoginPopup = () => {
+    const contextData = useContext(MainContext);
+
     const handleNextClick = (event) => {
         event.preventDefault();
-        console.log(event.target.username.value);
-        console.log(event.target.password.value);
+        const userName = event.target.username.value;
+        const password = event.target.password.value;
+
+        console.log(userName);
+        console.log(password);
+
+        if (userName && password) {
+            try {
+                axios
+                    .post('/api/userLogin', {
+                        username: userName,
+                        password: password,
+                    })
+                    .then((response) => {
+                        console.log(response);
+
+                        if (response.data.err) {
+                            console.log(response.data.errMsg);
+                        } else {
+                            contextData.setLoggedUser(response.data);
+                            contextData.setLoginPopupVisible(false);
+                        }
+                    });
+            } catch (err) {
+                console.log(err);
+            }
+        }
     };
 
     return (

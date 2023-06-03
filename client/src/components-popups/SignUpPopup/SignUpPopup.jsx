@@ -197,6 +197,7 @@ export const SignUpPopup = () => {
 
     const handleNextClick = (event) => {
         event.preventDefault();
+
         try {
             axios
                 .post('/api/registerUser', {
@@ -208,8 +209,6 @@ export const SignUpPopup = () => {
                     year: event.target.year.value,
                 })
                 .then((response) => {
-                    console.log(response);
-
                     if (response.data.err) {
                         console.log(response.data.errMsg);
                     } else {
@@ -233,7 +232,7 @@ export const SignUpPopup = () => {
                 <h2>Create your account</h2>
             </div>
             <form onSubmit={handleNextClick}>
-                <input type="text" id="username" placeholder="Name" />
+                <input type="text" id="username" placeholder="Username" />
                 <input type="text" id="email" placeholder="Email" />
                 <input type="password" id="password" placeholder="Password" />
                 <div>
