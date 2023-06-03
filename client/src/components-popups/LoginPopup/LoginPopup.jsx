@@ -82,9 +82,6 @@ export const LoginPopup = () => {
         const userName = event.target.username.value;
         const password = event.target.password.value;
 
-        console.log(userName);
-        console.log(password);
-
         if (userName && password) {
             try {
                 axios
@@ -93,8 +90,6 @@ export const LoginPopup = () => {
                         password: password,
                     })
                     .then((response) => {
-                        console.log(response);
-
                         if (response.data.err) {
                             console.log(response.data.errMsg);
                         } else {

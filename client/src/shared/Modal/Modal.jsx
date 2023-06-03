@@ -1,6 +1,5 @@
 import classNames from 'classnames';
 import styled from 'styled-components';
-
 import Close from '../Icons/Close';
 
 const Container = styled.div`
@@ -52,4 +51,4 @@ export const Modal = ({ children, onClickOutside }) => {
             </div>
         </Container>
     );
-}
+};

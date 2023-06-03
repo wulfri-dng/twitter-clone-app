@@ -3,7 +3,7 @@ import { useContext, useState } from 'react';
 import styled from 'styled-components';
 import moment from 'moment';
 import { MainContext } from '../../context/mainContext';
-import { Modal } from '../../shared';
+import { useEffect } from 'react';
 
 const StyledTweet = styled.div`
     display: flex;
@@ -134,10 +134,16 @@ const StyledTweet = styled.div`
 export const Tweet = ({ tweet, setUnauthorizedLikePopupVisibility }) => {
     const contextData = useContext(MainContext);
 
-    const [isLikedTweet, setIsLikedTweet] = useState(
-        contextData.loggedUser &&
-            contextData.loggedUser.likedTweets.includes(tweet._id)
-    );
+    const [isLikedTweet, setIsLikedTweet] = useState(false);
+
+    useEffect(() => {
+        setIsLikedTweet(
+            contextData.loggedUser &&
+                contextData.loggedUser.likedTweets.includes(tweet._id)
+                ? true
+                : false
+        );
+    }, [contextData.loggedUser]);
 
     const handleCommentClicked = () => {
         if (!contextData.loggedUser) {
@@ -203,7 +209,6 @@ export const Tweet = ({ tweet, setUnauthorizedLikePopupVisibility }) => {
 
     return (
         <StyledTweet>
-            {console.log(tweet.profilePic)}
             <div className="image-area">
                 <img
                     className="user-dp"

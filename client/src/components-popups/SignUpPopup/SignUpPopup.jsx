@@ -197,27 +197,37 @@ export const SignUpPopup = () => {
 
     const handleNextClick = (event) => {
         event.preventDefault();
+        const username = event.target.username.value;
+        const email = event.target.email.value;
+        const password = event.target.password.value;
+        const month = event.target.month.value;
+        const date = event.target.username.value;
+        const year = event.target.year.value;
 
-        try {
-            axios
-                .post('/api/registerUser', {
-                    username: event.target.username.value,
-                    email: event.target.email.value,
-                    password: event.target.password.value,
-                    month: event.target.month.value,
-                    date: event.target.username.value,
-                    year: event.target.year.value,
-                })
-                .then((response) => {
-                    if (response.data.err) {
-                        console.log(response.data.errMsg);
-                    } else {
-                        contextData.setLoggedUser(response.data);
-                        contextData.setRegisterPopupVisible(false);
-                    }
-                });
-        } catch (err) {
-            console.log(err);
+        if (username && email && password && month && date && year) {
+            try {
+                axios
+                    .post('/api/registerUser', {
+                        username: username,
+                        email: email,
+                        password: password,
+                        month: month,
+                        date: date,
+                        year: year,
+                    })
+                    .then((response) => {
+                        if (response.data.err) {
+                            console.log(response.data.errMsg);
+                        } else {
+                            contextData.setLoggedUser(response.data);
+                            contextData.setRegisterPopupVisible(false);
+                        }
+                    });
+            } catch (err) {
+                console.log(err);
+            }
+        } else {
+            console.log('Please fill all the fields');
         }
     };
 

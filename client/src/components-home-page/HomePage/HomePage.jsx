@@ -4,6 +4,7 @@ import { HomeContent } from '../HomeContent/HomeContent.jsx';
 import { MainContext } from '../../context/mainContext';
 import { Modal } from '../../shared';
 import { LoginPopup, SignUpPopup } from '../../components-popups';
+import { GuestLoginSignUpBar } from '../GuestLoginSignUpBar/GuestLoginSignUpBar';
 
 export const HomePage = () => {
     const contextData = useContext(MainContext);
@@ -28,6 +29,7 @@ export const HomePage = () => {
                     <SignUpPopup />
                 </Modal>
             )}
+            {!contextData.loggedUser && <GuestLoginSignUpBar />}
         </>
     );
 };
