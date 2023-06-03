@@ -1,11 +1,13 @@
-import { useEffect } from 'react';
+import axios from 'axios';
+import { useContext } from 'react';
 import { useState } from 'react';
 import styled from 'styled-components';
+import { MainContext } from '../../context/mainContext';
 
 const Container = styled.div`
     width: 420px;
     margin: 15px auto 35px auto;
-    height: 665px;
+    height: 645px;
 
     h2 {
         font-size: 32px;
@@ -23,7 +25,7 @@ const Container = styled.div`
     }
 
     form input:nth-child(2) {
-        margin-top: 15px;
+        margin: 20px 0;
     }
 
     form input:focus {
@@ -31,8 +33,46 @@ const Container = styled.div`
         border: 2px solid rgb(29, 155, 240);
     }
 
+    .dateSection {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    form select {
+        height: 55px;
+        background-color: black;
+        border: 1px solid rgb(255, 255, 255, 0.2);
+        border-radius: 3px;
+        color: white;
+        padding: 0 8px;
+    }
+
+    form select:hover {
+        cursor: pointer;
+    }
+
+    form select:focus {
+        outline: none !important;
+        border: 2px solid rgb(29, 155, 240);
+    }
+
+    form select:nth-child(1) {
+        flex-grow: 5;
+        margin-right: 13px;
+    }
+
+    form select:nth-child(2) {
+        flex-grow: 2;
+        margin-right: 13px;
+    }
+
+    form select:nth-child(3) {
+        flex-grow: 3;
+    }
+
     .helper-title {
-        margin-top: 15px;
+        margin-top: 20px;
         font-size: 16px;
         display: flex;
         color: white;
@@ -41,6 +81,7 @@ const Container = styled.div`
 
     .helper-text {
         margin-top: 5px;
+        margin-bottom: 20px;
         font-size: 14px;
         display: flex;
         color: #aaa;
@@ -83,6 +124,7 @@ const Container = styled.div`
 `;
 
 export const SignUpPopup = () => {
+    const contextData = useContext(MainContext);
     const [dateOptionList, setDateOptionList] = useState([]);
 
     const handleMonthSelect = (event) => {
@@ -122,9 +164,9 @@ export const SignUpPopup = () => {
 
     const renderBirthdayDates = () => {
         return (
-            <>
+            <div className="dateSection">
                 <select name="month" id="month" onChange={handleMonthSelect}>
-                    <option value=""></option>
+                    <option value="">Month</option>
                     <option value="1">January</option>
                     <option value="2">February</option>
                     <option value="3">March</option>
@@ -138,25 +180,49 @@ export const SignUpPopup = () => {
                     <option value="11">November</option>
                     <option value="12">December</option>
                 </select>
-                <select name="day" id="day">
-                    <option value=""></option>
+                <select name="date" id="date">
+                    <option value="">Date</option>
                     {dateOptionList.length > 0 &&
                         dateOptionList.map((date) => {
                             return <option value={date}>{date}</option>;
                         })}
                 </select>
                 <select name="year" id="year">
-                    <option value=""></option>
+                    <option value="">Year</option>
                     {renderYears()}
                 </select>
-            </>
+            </div>
         );
     };
 
     const handleNextClick = (event) => {
         event.preventDefault();
         console.log(event.target.username.value);
+        console.log(event.target.email.value);
         console.log(event.target.password.value);
+        console.log(event.target.month.value);
+        console.log(event.target.date.value);
+        console.log(event.target.year.value);
+        try {
+            axios
+                .post('/api/registerUser', {
+                    username: event.target.username.value,
+                    email: event.target.email.value,
+                    password: event.target.password.value,
+                    month: event.target.month.value,
+                    date: event.target.username.value,
+                    year: event.target.year.value,
+                })
+                .then((response) => {
+                    if (response.data.err) {
+                        console.log(response.data.errMsg);
+                    } else {
+                        contextData.setRegisterPopupVisible(false);
+                    }
+                });
+        } catch (err) {
+            console.log(err);
+        }
     };
 
     return (
