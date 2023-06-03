@@ -132,21 +132,15 @@ const StyledTweet = styled.div`
 `;
 
 export const Tweet = ({ tweet, setUnauthorizedLikePopupVisibility }) => {
-    const currentUser = useContext(MainContext);
+    const contextData = useContext(MainContext);
 
-    const user = {
-        userName: 'danushanavod',
-        name: 'Danusha Navod',
-        likedTweets: ['646d8b574f57f74260f704c0', '646d8d8f0a6d077b6b1a629b'],
-    };
-
-    // TODO: Get real user and automate this
     const [isLikedTweet, setIsLikedTweet] = useState(
-        currentUser.user && currentUser.user.likedTweets.includes(tweet._id)
+        contextData.loggedUser &&
+            contextData.loggedUser.likedTweets.includes(tweet._id)
     );
 
     const handleCommentClicked = () => {
-        if (!currentUser.user) {
+        if (!contextData.loggedUser) {
             setUnauthorizedLikePopupVisibility((prev) => {
                 return { ...prev, commentPopup: true };
             });
@@ -154,7 +148,7 @@ export const Tweet = ({ tweet, setUnauthorizedLikePopupVisibility }) => {
     };
 
     const handleRetweetClicked = () => {
-        if (!currentUser.user) {
+        if (!contextData.loggedUser) {
             setUnauthorizedLikePopupVisibility((prev) => {
                 return { ...prev, retweetPopup: true };
             });
@@ -162,11 +156,12 @@ export const Tweet = ({ tweet, setUnauthorizedLikePopupVisibility }) => {
     };
 
     const handleLikeClicked = () => {
-        if (currentUser.user) {
+        if (contextData.loggedUser) {
             try {
                 axios
                     .post('/api/likeTweet', {
-                        id: tweet._id,
+                        tweetId: tweet._id,
+                        likedUserId: contextData.loggedUser._id,
                     })
                     .then(() => {
                         setIsLikedTweet(true);
@@ -186,7 +181,8 @@ export const Tweet = ({ tweet, setUnauthorizedLikePopupVisibility }) => {
         try {
             axios
                 .post('/api/dislikeTweet', {
-                    id: tweet._id,
+                    tweetId: tweet._id,
+                    dislikedUserId: contextData.loggedUser._id,
                 })
                 .then(() => {
                     setIsLikedTweet(false);

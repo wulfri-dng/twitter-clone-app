@@ -197,12 +197,6 @@ export const SignUpPopup = () => {
 
     const handleNextClick = (event) => {
         event.preventDefault();
-        console.log(event.target.username.value);
-        console.log(event.target.email.value);
-        console.log(event.target.password.value);
-        console.log(event.target.month.value);
-        console.log(event.target.date.value);
-        console.log(event.target.year.value);
         try {
             axios
                 .post('/api/registerUser', {
@@ -214,9 +208,12 @@ export const SignUpPopup = () => {
                     year: event.target.year.value,
                 })
                 .then((response) => {
+                    console.log(response);
+
                     if (response.data.err) {
                         console.log(response.data.errMsg);
                     } else {
+                        contextData.setLoggedUser(response.data);
                         contextData.setRegisterPopupVisible(false);
                     }
                 });
