@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import Search from '../../shared/Icons/Search';
-import classNames from 'classnames';
 
 export const RightSideUserPreview = () => {
     const [searchText, setSearchText] = useState('');
@@ -47,10 +46,9 @@ export const RightSideUserPreview = () => {
                         placeholder="Search Streamer"
                     />
                     <button
-                        className={classNames(
-                            !Boolean(searchText) && 'hide',
-                            'submit-btn'
-                        )}
+                        className={`submit-btn ${
+                            !Boolean(searchText) ? 'hide' : ''
+                        }`}
                         type="button"
                         onClick={() => setSearchText('')}
                     >

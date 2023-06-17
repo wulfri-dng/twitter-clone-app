@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import styled from 'styled-components';
 import Close from '../Icons/Close';
 
@@ -43,7 +42,7 @@ export const Modal = ({ children, onClickOutside }) => {
     return (
         <Container>
             <Backdrop onClick={() => onClickOutside()} />
-            <div className={classNames('modal')}>
+            <div className={'modal'}>
                 <button onClick={onClickOutside} className="close-btn">
                     <Close color="white" size={24} />
                 </button>

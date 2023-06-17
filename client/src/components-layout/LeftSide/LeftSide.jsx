@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import React, { useContext, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
@@ -231,10 +230,9 @@ export const LeftSide = ({ onClickTweet }) => {
                             {menu.visible && (
                                 <Link
                                     to={menu.link ?? '#'}
-                                    className={classNames(
-                                        `btn--${menu.id} new-tweets`,
-                                        isActiveLink && 'active'
-                                    )}
+                                    className={`btn--${menu.id} new-tweets ${
+                                        isActiveLink ? 'active' : ''
+                                    }`}
                                     key={menu.id}
                                     onClick={menu.onClick}
                                 >

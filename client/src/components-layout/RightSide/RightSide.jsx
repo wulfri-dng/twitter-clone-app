@@ -1,7 +1,5 @@
-import { useContext, useState } from 'react';
-import classNames from 'classnames';
+import { useContext } from 'react';
 import styled from 'styled-components';
-import Search from '../../shared/Icons/Search';
 import { MainContext } from '../../context/mainContext';
 import { RightSideUserPreview } from '../RightSideUserPreview/RightSideUserPreview';
 import { RightSideGuestPreview } from '../RightSideGuestPreview/RightSideGuestPreview';

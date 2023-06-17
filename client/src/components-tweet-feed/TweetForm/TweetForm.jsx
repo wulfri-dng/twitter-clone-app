@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import { useEffect, useRef, useState } from 'react';
 import ProgressRing from '../../shared/Icons/ProgressRing';
 import { actions } from './actionDataSchema';
@@ -111,10 +110,9 @@ export const TweetForm = ({
                                     />
                                     {maxAlmostReached && (
                                         <span
-                                            className={classNames(
-                                                'tweet-length__text',
-                                                exceededMax && 'red'
-                                            )}
+                                            className={`tweet-length__text ${
+                                                exceededMax ? 'red' : ''
+                                            }`}
                                         >
                                             {charsLeft}
                                         </span>
